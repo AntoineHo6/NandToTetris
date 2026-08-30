@@ -1,6 +1,6 @@
-#include "Parser.hpp";
-#include <fstream>;
-#include <iostream>;
+#include "../include/Parser.hpp"
+#include <fstream>
+#include <iostream>
 
 Parser::Parser(const std::string& filepath): file(filepath) {
     if (!file.is_open()) {
@@ -8,6 +8,24 @@ Parser::Parser(const std::string& filepath): file(filepath) {
     }
 }
 
-bool Parser::hasMoreLines() const {
+bool Parser::hasMoreLines() {
     return file.peek() != EOF;
+};
+
+void Parser::advance() {
+    size_t posFirstChar = inst.find_first_not_of(" \t\r\n"); 
+
+    while (std::getline(file, inst)) {
+        // skip empty lines
+        if (posFirstChar == std::string::npos) {
+            continue;
+        }
+
+        // skip comment lines
+        if (inst.compare(posFirstChar, 2, "//") == 0) {
+            continue;
+        }
+
+        break;
+    }
 };

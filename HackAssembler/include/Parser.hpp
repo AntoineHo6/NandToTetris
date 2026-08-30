@@ -1,7 +1,6 @@
 #pragma once
-
+#include <fstream>
 #include <string>
-#include <vector>
 
 enum class InstructionType {
     A_INSTRUCTION, // @xxx
@@ -13,7 +12,7 @@ class Parser {
     public:
         explicit Parser(const std::string& filepath);
 
-        bool hasMoreLines() const;
+        bool hasMoreLines();
         void advance();
         
         InstructionType instructionType() const;
@@ -24,4 +23,5 @@ class Parser {
 
     private:
         std::ifstream file;
+        std::string inst;
 };

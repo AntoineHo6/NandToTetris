@@ -1,11 +1,17 @@
 #include <iostream>
-#include <fstream>
-#include <string>
 
-using namespace std;
+#include "Parser.cpp"
 
 int main() {
-    ifstream file("example.txt");
+    Parser parser("../asm/mult.asm");
+    
+    while (true) {
+        if (!parser.hasMoreLines()) {
+            return 0;
+        }
+
+        parser.advance();
+    }
 
     return 0;
 }
