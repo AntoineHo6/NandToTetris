@@ -29,3 +29,23 @@ void Parser::advance() {
         break;
     }
 };
+
+InstructionType Parser::instructionType() const {
+    size_t posFirstChar = inst.find_first_not_of(" \t\r\n");
+
+    // Safety guard:
+    if (posFirstChar == std::string::npos) {
+        std::cerr << "Fatal Error: Attempted to parse an empty or invalid instruction line." << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+
+    if (inst[posFirstChar] == '@') {
+        return InstructionType::A_INSTRUCTION;
+    }
+    else if (inst[posFirstChar] == '(') {
+        return InstructionType::L_INSTRUCTION;
+    }
+    else {
+        return InstructionType::C_INSTRUCTION;
+    }
+};
