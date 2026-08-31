@@ -9,8 +9,10 @@ int main() {
         if (!parser.hasMoreLines()) {
             return 0;
         }
-
+        
         parser.advance();
+        std::string test = parser.symbol();
+        std::cout << "HELLO WORLD";
     }
 
     return 0;

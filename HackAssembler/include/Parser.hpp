@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 
-enum class InstructionType {
+enum class InstrType {
     A_INSTRUCTION, // @xxx
     C_INSTRUCTION, // dest=comp;jump
     L_INSTRUCTION  // (xxx)
@@ -15,7 +15,7 @@ class Parser {
         bool hasMoreLines();
         void advance();
         
-        InstructionType instructionType() const;
+        InstrType instructionType() const;
         std::string symbol() const;
         std::string des() const;
         std::string comp() const;
