@@ -17,11 +17,12 @@ class Parser {
         
         InstrType instructionType() const;
         std::string symbol() const;
-        std::string des() const;
+        std::string dest() const;
         std::string comp() const;
         std::string jump() const;
+        std::string getInstr() const;
 
     private:
         std::ifstream file;
-        std::string inst;
+        std::string instr;
 };
