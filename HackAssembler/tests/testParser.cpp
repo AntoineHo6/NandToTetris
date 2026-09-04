@@ -9,6 +9,7 @@ void createTestFile(const std::string& filename, const std::string& content) {
     file << content;
 }
 
+
 TEST_CASE("Testing Parser::advance()") {
     SUBCASE("Advances through asm instructions") {
         std::string testPath = "test_standard.asm";
@@ -22,7 +23,7 @@ TEST_CASE("Testing Parser::advance()") {
 
     SUBCASE("Trims whitespace and removes inline comments around asm instructions") {
         std::string testPath = "test_whitespace_inline_comments.asm";
-        createTestFile(testPath, "   @10\nD=M // poopi\n@20   ");
+        createTestFile(testPath, "   \n   @10\nD=M // poopi\n@20   ");
 
         Parser parser(testPath);
 
@@ -61,11 +62,13 @@ TEST_CASE("Testing Parser::advance()") {
     }
 };
 
+
 TEST_CASE("Testing Parser::instructionType()") {
     SUBCASE("Extracts symbol from A_INSTRUCTION (@xxx)") {
         
     };
 };
+
 
 TEST_CASE("Testing Parser::symbol()") {
     SUBCASE("Extracts symbol from A_INSTRUCTION (@xxx)") {
@@ -79,5 +82,21 @@ TEST_CASE("Testing Parser::symbol()") {
 
         parser.advance();
         CHECK(parser.symbol() == "LOOP");
+    };
+};
+
+
+TEST_CASE("Testing Parser::dest()") {
+    SUBCASE("Extracts dest from C_INSTRUCTION dest=comp;jump") {
+        std::string testPath = "test_dest.asm";
+        createTestFile(testPath, "M=D+1;JGT\n1;JMP");
+
+        Parser parser(testPath);
+
+        parser.advance();
+        CHECK(parser.dest() == "M");
+
+        parser.advance();
+        CHECK(parser.dest() == "");
     };
 };

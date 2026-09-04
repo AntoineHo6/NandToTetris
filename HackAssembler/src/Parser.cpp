@@ -21,25 +21,27 @@ void Parser::advance() {
     while (std::getline(file, line)) {
         size_t posFirstChar = line.find_first_not_of(" \t\r\n"); 
         
-        // skip empty lines
+        // #1: skip empty lines
         if (posFirstChar == std::string::npos) {
             continue;
         }
 
-        // skip comment lines
+        // #2: skip comment lines
         if (line.compare(posFirstChar, 2, "//") == 0) {
             continue;
         }
 
+        // #3: If asm line, do the following:
         // Trim whitespace left
         line.erase(0, posFirstChar);
 
-        // Trim any trailing inline comments (e.g., "@100 // comment") or whitespace
+        // Trim trailing inline comments ("@100 // comment")
         size_t commentPos = line.find("//");
         if (commentPos != std::string::npos) {
             line = line.substr(0, commentPos);
         }
 
+        // Trim trailing whitespace ("@100 ")
         size_t endPos = line.find_last_not_of(" \t\r\n");
         if (endPos != std::string::npos) {
             line = line.substr(0, endPos + 1);
@@ -90,3 +92,14 @@ std::string Parser::symbol() const {
     std::cerr << "Fatal Error: Attempted extract symbol from an instruction that is not an A or a L instruction" << std::endl;
     std::exit(EXIT_FAILURE);
 };
+
+
+std::string Parser::dest() const {
+    size_t endPos = instr.find_first_of("=");
+
+    if (endPos == std::string::npos) {
+        return "";
+    }
+
+    return instr.substr(0, endPos);
+}
