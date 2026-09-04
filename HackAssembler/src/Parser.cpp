@@ -55,12 +55,6 @@ void Parser::advance() {
 InstrType Parser::instructionType() const {
     size_t posFirstChar = instr.find_first_not_of(" \t\r\n");
 
-    // Safety guard:
-    if (posFirstChar == std::string::npos) {
-        std::cerr << "Fatal Error: Attempted to parse an empty or invalid instruction line." << std::endl;
-        std::exit(EXIT_FAILURE);
-    }
-
     if (instr[posFirstChar] == '@') {
         return InstrType::A_INSTRUCTION;
     }
@@ -88,9 +82,6 @@ std::string Parser::symbol() const {
 
         return symbolStr.substr(0, endPos);
     }
-    
-    std::cerr << "Fatal Error: Attempted extract symbol from an instruction that is not an A or a L instruction" << std::endl;
-    std::exit(EXIT_FAILURE);
 };
 
 
