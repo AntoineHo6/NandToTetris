@@ -61,6 +61,12 @@ TEST_CASE("Testing Parser::advance()") {
     }
 };
 
+TEST_CASE("Testing Parser::instructionType()") {
+    SUBCASE("Extracts symbol from A_INSTRUCTION (@xxx)") {
+        
+    };
+};
+
 TEST_CASE("Testing Parser::symbol()") {
     SUBCASE("Extracts symbol from A_INSTRUCTION (@xxx)") {
         std::string testPath = "test_symbol.asm";

@@ -69,3 +69,14 @@ $RECYCLE.BIN/
 # Linux
 *~
 .directory
+
+# ==========================================
+# Hack Assembler specifics
+# ==========================================
+# Ignore .asm files anywhere inside tests/
+./HackAssembler/tests/*.asm
+
+# Ignore test executables inside tests/
+./HackAssembler/tests/runTests
+./HackAssembler/tests/*.exe
+./HackAssembler/tests/*.out
