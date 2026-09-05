@@ -87,7 +87,7 @@ TEST_CASE("Testing Parser::symbol()") {
 
 
 TEST_CASE("Testing Parser::dest()") {
-    SUBCASE("Extracts dest from C_INSTRUCTION dest=comp;jump") {
+    SUBCASE("Extracts dest from C_INSTRUCTION (dest=comp;jump)") {
         std::string testPath = "test_dest.asm";
         createTestFile(testPath, "M=D+1;JGT\n1;JMP");
 
@@ -98,5 +98,23 @@ TEST_CASE("Testing Parser::dest()") {
 
         parser.advance();
         CHECK(parser.dest() == "");
+    };
+};
+
+TEST_CASE("Testing Parser::comp()") {
+    SUBCASE("Extracts comp from C_INSTRUCTION (dest=comp;jump)") {
+        std::string testPath = "test_comp.asm";
+        createTestFile(testPath, "M=D+1;JGT\n1;JMP\nA=D-1");
+
+        Parser parser(testPath);
+
+        parser.advance();
+        CHECK(parser.comp() == "D+1");
+
+        parser.advance();
+        CHECK(parser.comp() == "1");
+
+        parser.advance();
+        CHECK(parser.comp() == "D-1");
     };
 };

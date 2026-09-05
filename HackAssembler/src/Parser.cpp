@@ -52,6 +52,9 @@ void Parser::advance() {
     }
 };
 
+/*
+    Returns the instruction type of the current instruction.
+*/
 InstrType Parser::instructionType() const {
     size_t posFirstChar = instr.find_first_not_of(" \t\r\n");
 
@@ -67,6 +70,8 @@ InstrType Parser::instructionType() const {
 };
 
 /*
+    Returns the symbol of an a_instruction or a l_instruction.
+
     A_INSTRUCTION: @xxx
     L_INSTRUCTION: (xxx)
 */
@@ -85,6 +90,9 @@ std::string Parser::symbol() const {
 };
 
 
+/*
+Only called if C_INSTRUCTION. Returns dest of a c_instruction. (dest=comp;jump)
+*/
 std::string Parser::dest() const {
     size_t endPos = instr.find_first_of("=");
 
@@ -94,3 +102,26 @@ std::string Parser::dest() const {
 
     return instr.substr(0, endPos);
 }
+
+
+/*
+Only called if C_INSTRUCTION. Returns comp part of a c_instruction. (dest=comp;jump)
+*/
+std::string Parser::comp() const {
+    size_t startPos = instr.find_first_of("=");
+
+    if (startPos == std::string::npos) {
+        startPos = 0;
+    }
+    else {
+        startPos++;
+    }
+
+    size_t endPos = instr.find_first_of(";");
+
+    if (endPos == std::string::npos) {
+        endPos = instr.find_first_not_of(" \t\r\n");
+    }
+
+    return instr.substr(startPos, endPos - startPos);
+};
