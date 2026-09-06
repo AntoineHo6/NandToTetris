@@ -79,14 +79,14 @@ std::string Parser::symbol() const {
     // Skip the first char as it can only be @ or (
     std::string symbolStr = instr.substr(0 + 1);
 
-    if (instructionType() == InstrType::A_INSTRUCTION) {
-        return symbolStr;
-    }
-    else if (instructionType() == InstrType::L_INSTRUCTION) { // remove the ')'
+    if (instructionType() == InstrType::L_INSTRUCTION) { // remove the ')'
         size_t endPos = symbolStr.find(")");
 
         return symbolStr.substr(0, endPos);
     }
+
+    // is a_instruction
+    return symbolStr;
 };
 
 
@@ -124,4 +124,15 @@ std::string Parser::comp() const {
     }
 
     return instr.substr(startPos, endPos - startPos);
+};
+
+
+std::string Parser::jump() const {
+    size_t startPos = instr.find_first_of(";");
+
+    if (startPos == std::string::npos) {
+        return "";        
+    }
+
+    return instr.substr(startPos+1, 3);
 };

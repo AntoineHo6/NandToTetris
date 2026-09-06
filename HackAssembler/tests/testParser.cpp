@@ -118,3 +118,21 @@ TEST_CASE("Testing Parser::comp()") {
         CHECK(parser.comp() == "D-1");
     };
 };
+
+TEST_CASE("Testing Parser::jump()") {
+    SUBCASE("Extracts jump from C_INSTRUCTION (dest=comp;jump)") {
+        std::string testPath = "test_jump.asm";
+        createTestFile(testPath, "M=D+1;JGT\n1;JMP\nA=D-1");
+
+        Parser parser(testPath);
+
+        parser.advance();
+        CHECK(parser.jump() == "JGT");
+
+        parser.advance();
+        CHECK(parser.jump() == "JMP");
+
+        parser.advance();
+        CHECK(parser.jump() == "");
+    };
+};
