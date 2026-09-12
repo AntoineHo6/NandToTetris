@@ -20,7 +20,7 @@ jobs:
       # Step 3: Build the test executable
       - name: Compile HackAssembler Unit Tests
         run: |
-          g++ -std=c++20 -Iinclude HackAssembler/src/parser.cpp HackAssembler/src/code.cpp HackAssembler/tests/testCode.cpp -o runCodeTests
+          g++ -std=c++20 -Iinclude HackAssembler/src/parser.cpp HackAssembler/src/code.cpp HackAssembler/tests/testCode.cpp -o HackAssembler/tests/runCodeTests
 
       # Step 4: Execute the test binary
       - name: Run Unit Tests
