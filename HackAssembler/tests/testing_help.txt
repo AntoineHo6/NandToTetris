@@ -1,5 +1,9 @@
 To test Parser.cpp for example, run the following commands in your terminal inside of the tests directory:
 
-1. g++ -std=c++20 -Iinclude ../src/Parser.cpp testParser.cpp -o runTests
+1. g++ -std=c++20 -Iinclude ../src/parser.cpp testParser.cpp -o runParserTests
+2. ./runParserTests
 
-2. ./runTests
+---------------- ---------------- ----------------
+TEST Code.cpp:
+1. g++ -std=c++20 -Iinclude ../src/parser.cpp ../src/code.cpp testCode.cpp -o runCodeTests
+2. ./runCodeTests

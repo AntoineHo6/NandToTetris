@@ -1,6 +1,6 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "../include/doctest.hpp"
-#include "../include/Parser.hpp"
+#include "../include/parser.hpp"
 #include <fstream>
 
 // Helper to write a temporary test file
@@ -62,10 +62,21 @@ TEST_CASE("Testing Parser::advance()") {
     }
 };
 
-
 TEST_CASE("Testing Parser::instructionType()") {
     SUBCASE("Extracts symbol from A_INSTRUCTION (@xxx)") {
-        
+        std::string testPath = "test_symbol.asm";
+        createTestFile(testPath, "   @10\n(LOOP)\nD=A");
+
+        Parser parser(testPath);
+
+        parser.advance();
+        CHECK(parser.instructionType() == InstrType::A_INSTRUCTION);
+
+        parser.advance();
+        CHECK(parser.instructionType() == InstrType::L_INSTRUCTION);
+
+        parser.advance();
+        CHECK(parser.instructionType() == InstrType::C_INSTRUCTION);
     };
 };
 

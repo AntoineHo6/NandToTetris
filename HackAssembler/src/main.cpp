@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "Parser.cpp"
+#include "parser.cpp"
 
 int main() {
     return 0;
