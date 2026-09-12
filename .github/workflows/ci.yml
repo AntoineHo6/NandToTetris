@@ -25,6 +25,6 @@ jobs:
       # Step 4: Execute the test binary
       - name: Run Unit Tests
         run: |
-          HackAssembler/runCodeTests
+          HackAssembler/tests/runCodeTests
 
       
