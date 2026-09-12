@@ -1,0 +1,32 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the code repository
+      - name: Run Parser tests
+        uses: actions/checkout@v4
+
+      # Step 2: Set up C++ compiler (g++)
+      - name: Install C++ compiler
+        run: sudo apt-get update && sudo apt-get install -g++
+
+      # Step 3: Build the test executable
+      - name: Compile HackAssembler Unit Tests
+        run: |
+          g++ -std=c++20 -Iinclude HackAssembler/src/parser.cpp HackAssembler/src/code.cpp HackAssembler/tests/testCode.cpp -o runCodeTests
+
+      # Step 4: Execute the test binary
+      - name: Run Unit Tests
+        run: |
+          HackAssembler/runCodeTests
+
+      
