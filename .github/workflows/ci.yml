@@ -8,6 +8,7 @@ on:
 
 jobs:
   hackassembler-tests:
+    name: HackAssembler Unit Tests
     runs-on: ubuntu-latest
 
     defaults:
