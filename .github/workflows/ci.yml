@@ -11,13 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Check out the code repository
-      - name: Run Parser tests
+      - name: Check out the code repository
         uses: actions/checkout@v4
 
-      # Step 2: Set up C++ compiler (g++)
       - name: Install C++ compiler
-        run: sudo apt-get update && sudo apt-get install -g++
+        run: sudo apt-get update && sudo apt-get install -y g++
 
       # Step 3: Build the test executable
       - name: Compile HackAssembler Unit Tests
