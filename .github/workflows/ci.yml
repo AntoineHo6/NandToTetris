@@ -7,25 +7,28 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  hackassembler-tests:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: HackAssembler
+
     steps:
-      - name: Check out the code repository
+      - name: Checkout repository
         uses: actions/checkout@main
 
       - name: Install C++ compiler
         run: sudo apt-get update && sudo apt-get install -y g++
 
-      - name: Compile HackAssembler Unit Tests
+      - name: Compile Unit Tests
         run: |
-          g++ -std=c++20 -Iinclude HackAssembler/src/parser.cpp HackAssembler/tests/testParser.cpp -o HackAssembler/tests/runParserTests
-          g++ -std=c++20 -Iinclude HackAssembler/src/parser.cpp HackAssembler/src/code.cpp HackAssembler/tests/testCode.cpp -o HackAssembler/tests/runCodeTests
+          g++ -std=c++20 -Iinclude src/parser.cpp tests/testParser.cpp -o tests/runParserTests
+          g++ -std=c++20 -Iinclude src/parser.cpp src/code.cpp tests/testCode.cpp -o tests/runCodeTests
 
-      # Step 4: Execute the test binary
       - name: Run Unit Tests
         run: |
-          HackAssembler/tests/runParserTests
-          HackAssembler/tests/runCodeTests
+          tests/runParserTests
+          tests/runCodeTests
 
       
