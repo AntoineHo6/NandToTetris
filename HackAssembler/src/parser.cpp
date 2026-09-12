@@ -2,55 +2,69 @@
 #include <fstream>
 #include <iostream>
 
+/*
+    eg: "@100 //comment" -> "@100 "
+*/
+void trimInlineComment(std::string& line) {
+    size_t commentPos = line.find("//");
+    if (commentPos != std::string::npos) {
+        line = line.substr(0, commentPos);
+    }
+}
+
+
+/*
+    eg: "@100 " -> "@100"
+*/
+void trimTrailWhiteSpace(std::string& line) {
+    size_t endPos = line.find_last_not_of(" \t\r\n");
+    if (endPos != std::string::npos) {
+        line = line.substr(0, endPos + 1);
+    }
+}
+
+
 Parser::Parser(const std::string& filepath): file(filepath) {
     if (!file.is_open()) {
         std::cerr << "Error: Could not open file " << filepath << std::endl;
     }
 }
 
+
 std::string Parser::getInstr() const {
     return instr;
 };
+
 
 bool Parser::hasMoreLines() {
     return file.peek() != EOF;
 };
 
+
 void Parser::advance() {
     std::string line;
+
     while (std::getline(file, line)) {
         size_t posFirstChar = line.find_first_not_of(" \t\r\n"); 
         
-        // #1: skip empty lines
-        if (posFirstChar == std::string::npos) {
+        // #1: skip empty lines and comment lines
+        if (posFirstChar == std::string::npos || line.compare(posFirstChar, 2, "//") == 0) {
             continue;
         }
 
-        // #2: skip comment lines
-        if (line.compare(posFirstChar, 2, "//") == 0) {
-            continue;
-        }
+        // #2: If asm line, do the following:
+        line.erase(0, posFirstChar);    // Trim whitespace left
 
-        // #3: If asm line, do the following:
-        // Trim whitespace left
-        line.erase(0, posFirstChar);
+        trimInlineComment(line);
 
-        // Trim trailing inline comments ("@100 // comment")
-        size_t commentPos = line.find("//");
-        if (commentPos != std::string::npos) {
-            line = line.substr(0, commentPos);
-        }
-
-        // Trim trailing whitespace ("@100 ")
-        size_t endPos = line.find_last_not_of(" \t\r\n");
-        if (endPos != std::string::npos) {
-            line = line.substr(0, endPos + 1);
-        }
+        trimTrailWhiteSpace(line);
 
         instr = line;
+
         break;
     }
 };
+
 
 /*
     Returns the instruction type of the current instruction.
@@ -68,6 +82,7 @@ InstrType Parser::instructionType() const {
         return InstrType::C_INSTRUCTION;
     }
 };
+
 
 /*
     Returns the symbol of an a_instruction or a l_instruction.
@@ -127,6 +142,9 @@ std::string Parser::comp() const {
 };
 
 
+/*
+Only called if C_INSTRUCTION. Returns jump part of a c_instruction. (dest=comp;jump)
+*/
 std::string Parser::jump() const {
     size_t startPos = instr.find_first_of(";");
 
