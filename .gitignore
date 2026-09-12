@@ -73,10 +73,10 @@ $RECYCLE.BIN/
 # ==========================================
 # Hack Assembler specifics
 # ==========================================
-# Ignore .asm files anywhere inside tests/
-./HackAssembler/tests/*.asm
-
-# Ignore test executables inside tests/
-./HackAssembler/tests/runTests
-./HackAssembler/tests/*.exe
-./HackAssembler/tests/*.out
+# Ignore all test files, test executables, and temporary files in HackAssembler/tests
+HackAssembler/tests/*.asm
+HackAssembler/tests/*.o
+HackAssembler/tests/runParserTests
+HackAssembler/tests/runCodeTests
+HackAssembler/tests/*.exe
+HackAssembler/tests/*.out
