@@ -21,3 +21,17 @@ TEST_CASE("Testing Code::dest()") {
         CHECK(Code::dest(parser.dest()) == "011");
     };
 };
+
+
+TEST_CASE("Testing Code::comp()") {
+    SUBCASE("Extracts comp mnemonic into it's binary equivalent") {
+        std::string testPath = "test_standard.asm";
+        createTestFile(testPath, "DM=A+1\n");
+
+        Parser parser(testPath);
+
+        parser.advance();
+
+        CHECK(Code::comp(parser.comp()) == "0011011");
+    };
+};
